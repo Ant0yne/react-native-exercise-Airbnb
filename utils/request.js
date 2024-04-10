@@ -1,12 +1,14 @@
 import axios from "axios";
 
+// UTILS
+import { setToken } from "./user";
+
 /**
  *
  * @param {String} url
  * @param {String} method
  * @param {Object} body
  * @param {Function} setUserToken
- * @param {Function} setLoged
  * @param {Function} setError
  */
 const SignLog = async (
@@ -27,8 +29,8 @@ const SignLog = async (
 			method: method,
 			data: body,
 		});
-		// The response from the request
-		console.log(response.data);
+
+		setToken(response.data.token, setUserToken);
 
 		setIsLoading(false);
 	} catch (error) {

@@ -15,20 +15,20 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
 	const [isLoading, setIsLoading] = useState(true);
-	const [userToken, setUserToken] = useState(null);
+	const [userToken, setUserToken] = useState("");
 
 	useEffect(() => {
 		/**
 		 * Get the user token from local storage
 		 */
-		const bootstrapAsync = async () => {
+		const getToken = async () => {
 			const userToken = await AsyncStorage.getItem("userToken");
 
 			setUserToken(userToken);
 			setIsLoading(false);
 		};
 
-		bootstrapAsync();
+		getToken();
 	}, []);
 
 	return isLoading ? (
@@ -52,7 +52,9 @@ export default function App() {
 								<Tab.Screen name="TabHome">
 									{() => (
 										<Stack.Navigator>
-											<Stack.Screen name="Home" component={HomeScreen} />
+											<Stack.Screen name="Home">
+												{() => <HomeScreen setUserToken={setUserToken} />}
+											</Stack.Screen>
 										</Stack.Navigator>
 									)}
 								</Tab.Screen>
