@@ -49,7 +49,7 @@ export default function App() {
 					<Stack.Screen name="Tab">
 						{() => (
 							<Tab.Navigator>
-								<Tab.Screen name="TabHome">
+								<Tab.Screen name="TabHome" options={{ title: "Home" }}>
 									{() => (
 										<Stack.Navigator>
 											<Stack.Screen name="Home">

@@ -3,6 +3,8 @@ import axios from "axios";
 // UTILS
 import { setToken } from "./user";
 
+const api = "https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb";
+
 /**
  *
  * @param {String} url
@@ -25,7 +27,7 @@ const SignLog = async (
 
 	try {
 		const response = await axios({
-			url: `https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb${url}`,
+			url: api + url,
 			method: method,
 			data: body,
 		});
@@ -39,4 +41,26 @@ const SignLog = async (
 	}
 };
 
-export default SignLog;
+/**
+ *
+ * @param {String} url
+ * @param {String} method
+ * @param {Function} setIsLoading
+ * @returns Array of offers
+ */
+const Offers = async (url, method, setData, setIsLoading) => {
+	try {
+		const response = await axios({
+			url: api + url,
+			method: method,
+		});
+
+		setData(response.data);
+		setIsLoading(false);
+	} catch (error) {
+		console.error(error.response.data.error);
+		setIsLoading(false);
+	}
+};
+
+export { SignLog, Offers };
