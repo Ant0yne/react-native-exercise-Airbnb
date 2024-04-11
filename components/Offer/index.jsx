@@ -2,7 +2,7 @@ import { Text, View, Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 
 // UTILS
-import Nav from "../../utils/navigation";
+import nav from "../../utils/navigation";
 
 // STYLES
 import StylesOffer from "./offer";
@@ -13,7 +13,7 @@ const Offer = ({ offer }) => {
 
 	return (
 		<>
-			<Pressable onPress={() => Nav("Offer", navigation)}>
+			<Pressable onPress={() => nav("Offer", navigation, { id: offer._id })}>
 				<View>
 					<Image
 						source={{

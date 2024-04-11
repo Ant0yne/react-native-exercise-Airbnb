@@ -13,7 +13,7 @@ import Offer from "../components/Offer";
 
 // UTILS
 import { setToken } from "../utils/user";
-import { Offers } from "../utils/request";
+import { offers } from "../utils/request";
 
 // STYLES
 import StylesGlobal from "../styles/global";
@@ -24,7 +24,7 @@ const HomeScreen = ({ setUserToken }) => {
 	const [data, setData] = useState();
 
 	useEffect(() => {
-		Offers("/rooms", "get", setData, setIsLoading);
+		offers("/rooms", "get", setData, setIsLoading);
 	}, []);
 
 	return (

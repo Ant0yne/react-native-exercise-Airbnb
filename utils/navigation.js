@@ -5,8 +5,8 @@
  *
  * // To navigate to specific screen
  */
-const Nav = (screen, navigation) => {
-	navigation.navigate(screen);
+const nav = (screen, navigation, params) => {
+	navigation.navigate(screen, params);
 };
 
-export default Nav;
+export default nav;

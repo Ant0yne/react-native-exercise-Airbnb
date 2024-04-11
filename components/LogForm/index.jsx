@@ -8,8 +8,8 @@ import { Ionicons } from "@expo/vector-icons";
 import SignLogInput from "../SignLogInput";
 
 // UTILS
-import { SignLog } from "../../utils/request";
-import Nav from "../../utils/navigation";
+import { signLog } from "../../utils/request";
+import nav from "../../utils/navigation";
 
 // STYLES
 import StylesLogForm from "./logForm";
@@ -43,7 +43,7 @@ const LogForm = ({ setUserToken }) => {
 		};
 		const url = "/user/log_in";
 		// The request util
-		SignLog(url, "post", { ...body }, setUserToken, setError, setIsLoading);
+		signLog(url, "post", { ...body }, setUserToken, setError, setIsLoading);
 	};
 
 	return (
@@ -80,7 +80,7 @@ const LogForm = ({ setUserToken }) => {
 					</View>
 				</View>
 			)}
-			<Pressable onPress={() => Nav("SignUp", navigation)}>
+			<Pressable onPress={() => nav("SignUp", navigation)}>
 				<Text>No account ? Sign up</Text>
 			</Pressable>
 		</>

@@ -13,7 +13,7 @@ const api = "https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb";
  * @param {Function} setUserToken
  * @param {Function} setError
  */
-const SignLog = async (
+const signLog = async (
 	url,
 	method,
 	body,
@@ -48,12 +48,14 @@ const SignLog = async (
  * @param {Function} setIsLoading
  * @returns Array of offers
  */
-const Offers = async (url, method, setData, setIsLoading) => {
+const offers = async (url, method, setData, setIsLoading) => {
 	try {
 		const response = await axios({
 			url: api + url,
 			method: method,
 		});
+
+		console.log(response.data);
 
 		setData(response.data);
 		setIsLoading(false);
@@ -63,4 +65,4 @@ const Offers = async (url, method, setData, setIsLoading) => {
 	}
 };
 
-export { SignLog, Offers };
+export { signLog, offers };
