@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { useNavigation } from "@react-navigation/core";
 import { Text, View, ActivityIndicator, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/core";
+
 import { Ionicons } from "@expo/vector-icons";
 
 // COMPONENTS
 import SignLogInput from "../SignLogInput";
 
 // UTILS
-import SignLog from "../../utils/request";
+import { SignLog } from "../../utils/request";
+import Nav from "../../utils/navigation";
 
 // STYLES
 import StylesLogForm from "./logForm";
@@ -44,11 +46,6 @@ const LogForm = ({ setUserToken }) => {
 		SignLog(url, "post", { ...body }, setUserToken, setError, setIsLoading);
 	};
 
-	// To navigate to SignUp page
-	const handleNavSignUp = () => {
-		navigation.navigate("SignUp");
-	};
-
 	return (
 		<>
 			{isLoading ? (
@@ -83,7 +80,7 @@ const LogForm = ({ setUserToken }) => {
 					</View>
 				</View>
 			)}
-			<Pressable onPress={handleNavSignUp}>
+			<Pressable onPress={() => Nav("SignUp", navigation)}>
 				<Text>No account ? Sign up</Text>
 			</Pressable>
 		</>

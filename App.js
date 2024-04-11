@@ -9,6 +9,7 @@ import { ActivityIndicator } from "react-native";
 import LogInScreen from "./screen/LogInScreen";
 import SignUpScreen from "./screen/SignUpScreen";
 import HomeScreen from "./screen/HomeScreen";
+import OfferScreen from "./screen/OfferScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -46,14 +47,19 @@ export default function App() {
 						</Stack.Screen>
 					</>
 				) : (
-					<Stack.Screen name="Tab">
+					<Stack.Screen name="Tab" options={{ headerShown: false }}>
 						{() => (
 							<Tab.Navigator>
-								<Tab.Screen name="TabHome" options={{ title: "Home" }}>
+								<Tab.Screen
+									name="TabHome"
+									options={{ title: "Home", headerShown: false }}>
 									{() => (
 										<Stack.Navigator>
 											<Stack.Screen name="Home">
 												{() => <HomeScreen setUserToken={setUserToken} />}
+											</Stack.Screen>
+											<Stack.Screen name="Offer">
+												{() => <OfferScreen />}
 											</Stack.Screen>
 										</Stack.Navigator>
 									)}
