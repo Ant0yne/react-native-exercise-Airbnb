@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Text, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRoute } from "@react-navigation/native";
 
 // COMPONENTS
 import Offer from "../components/Offer";
@@ -13,10 +12,9 @@ import { offers } from "../utils/request";
 import StylesGlobal from "../styles/global";
 const stylesGlo = StylesGlobal();
 
-const OfferScreen = () => {
+const OfferScreen = ({ route }) => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [data, setData] = useState();
-	const route = useRoute();
 
 	useEffect(() => {
 		offers(`/rooms/${route.params.id}`, "get", setData, setIsLoading);

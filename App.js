@@ -10,6 +10,7 @@ import LogInScreen from "./screen/LogInScreen";
 import SignUpScreen from "./screen/SignUpScreen";
 import HomeScreen from "./screen/HomeScreen";
 import OfferScreen from "./screen/OfferScreen";
+import AroundScreen from "./screen/AroundScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -59,7 +60,19 @@ export default function App() {
 												{() => <HomeScreen setUserToken={setUserToken} />}
 											</Stack.Screen>
 											<Stack.Screen name="Offer">
-												{() => <OfferScreen />}
+												{(props) => <OfferScreen {...props} />}
+											</Stack.Screen>
+										</Stack.Navigator>
+									)}
+								</Tab.Screen>
+								<Tab.Screen
+									name="TabAround"
+									options={{ title: "Around me", headerShown: false }}>
+									{() => (
+										<Stack.Navigator>
+											<Stack.Screen name="Around" component={AroundScreen} />
+											<Stack.Screen name="Offer">
+												{(props) => <OfferScreen {...props} />}
 											</Stack.Screen>
 										</Stack.Navigator>
 									)}

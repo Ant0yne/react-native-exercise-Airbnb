@@ -55,8 +55,6 @@ const offers = async (url, method, setData, setIsLoading) => {
 			method: method,
 		});
 
-		console.log(response.data);
-
 		setData(response.data);
 		setIsLoading(false);
 	} catch (error) {

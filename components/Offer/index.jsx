@@ -33,7 +33,7 @@ const Offer = ({ offer }) => {
 					</View>
 					<Image
 						source={{ uri: offer.user.account.photo.url }}
-						style={{ width: 100, height: 100 }}
+						style={{ width: 100, height: 100, borderRadius: 50 }}
 					/>
 				</View>
 			</Pressable>
