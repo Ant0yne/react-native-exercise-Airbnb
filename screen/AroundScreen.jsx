@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Text, View } from "react-native";
+import { Text, View, ActivityIndicator } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 
 //UTILS
@@ -14,7 +14,22 @@ const AroundScreen = () => {
 		loc(setCoords, setDeny, setIsLoading);
 	}, []);
 
-	return <MapView style={{ flex: 1 }} provider={PROVIDER_GOOGLE}></MapView>;
+	return isLoading ? (
+		<ActivityIndicator size="large" color="#EB5961" />
+	) : deny ? (
+		<Text>Deny</Text>
+	) : (
+		<MapView
+			style={{ flex: 1 }}
+			provider={PROVIDER_GOOGLE}
+			initialRegion={{
+				latitude: coords.latitude,
+				longitude: coords.longitude,
+				latitudeDelta: 0.2,
+				longitudeDelta: 0.2,
+			}}
+			showsUserLocation></MapView>
+	);
 };
 
 export default AroundScreen;
