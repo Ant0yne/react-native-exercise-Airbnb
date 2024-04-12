@@ -71,9 +71,7 @@ export default function App() {
 									{() => (
 										<Stack.Navigator>
 											<Stack.Screen name="Around" component={AroundScreen} />
-											<Stack.Screen name="Offer">
-												{(props) => <OfferScreen {...props} />}
-											</Stack.Screen>
+											<Stack.Screen name="Offer" component={OfferScreen} />
 										</Stack.Navigator>
 									)}
 								</Tab.Screen>

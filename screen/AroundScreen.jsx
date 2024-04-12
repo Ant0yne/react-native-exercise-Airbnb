@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { Text, View, ActivityIndicator } from "react-native";
+import { Text, ActivityIndicator, Pressable } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 
 //UTILS
 import loc from "../utils/localisation";
+import nav from "../utils/navigation";
 
-const AroundScreen = () => {
+const AroundScreen = ({ navigation }) => {
 	const [deny, setDeny] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 	const [coords, setCoords] = useState();
@@ -32,6 +33,10 @@ const AroundScreen = () => {
 			showsUserLocation>
 			{data.map((marker) => {
 				return (
+					// <Pressable
+					// 	key={marker._id}
+					// 	onPress={() => console.log("test")}
+					// 	style={{ backgroundColor: "red" }}>
 					<Marker
 						key={marker._id}
 						coordinate={{
@@ -40,7 +45,9 @@ const AroundScreen = () => {
 						}}
 						title={marker.title}
 						description={marker.description}
+						onCalloutPress={() => nav("Offer", navigation, { id: marker._id })}
 					/>
+					// </Pressable>
 				);
 			})}
 		</MapView>
