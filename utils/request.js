@@ -2,6 +2,7 @@ import axios from "axios";
 
 // UTILS
 import { setToken } from "./user";
+import jsonify from "./jsonify";
 
 const api = "https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb";
 

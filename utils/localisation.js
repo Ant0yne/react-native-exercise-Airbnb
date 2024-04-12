@@ -13,7 +13,6 @@ const loc = async (setCoords, setDeny, setData, setIsLoading) => {
 		};
 		setCoords(obj);
 		const url = `/rooms/around?latitude=${obj.latitude}&longitude=${obj.longitude}`;
-		console.log(url);
 		offers(url, "get", setData, setIsLoading);
 	} else {
 		setDeny(true);

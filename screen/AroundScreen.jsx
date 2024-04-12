@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Text, View, ActivityIndicator } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 
 //UTILS
 import loc from "../utils/localisation";
@@ -29,7 +29,21 @@ const AroundScreen = () => {
 				latitudeDelta: 0.2,
 				longitudeDelta: 0.2,
 			}}
-			showsUserLocation></MapView>
+			showsUserLocation>
+			{data.map((marker) => {
+				return (
+					<Marker
+						key={marker._id}
+						coordinate={{
+							longitude: marker.location[0],
+							latitude: marker.location[1],
+						}}
+						title={marker.title}
+						description={marker.description}
+					/>
+				);
+			})}
+		</MapView>
 	);
 };
 
