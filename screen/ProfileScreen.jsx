@@ -30,11 +30,47 @@ const ProfileScreen = ({ userToken, setUserToken, setUserId, userId }) => {
 		profile(url, "get", userToken, setData, setIsLoading);
 	}, [isUpdating]);
 
+	// Reset the updating when changing screen
 	useEffect(() => {
 		if (!focus) {
 			setIsUpdating(false);
 		}
 	}, [focus]);
+
+	const permissionAndPicture = async (met) => {
+		if (met === "library") {
+			const { status } =
+				await ImagePicker.requestMediaLibraryPermissionsAsync();
+			if (status === "granted") {
+				const result = await ImagePicker.launchImageLibraryAsync({
+					allowsEditing: true,
+					aspect: [1, 1],
+				});
+
+				if (result.canceled === true) {
+					alert("Pas de photo sélectionnée");
+				} else {
+					setAvatar(result.assets[0].uri);
+				}
+			} else {
+				alert("Permission refusée");
+			}
+		} else {
+			const { status } = await ImagePicker.requestCameraPermissionsAsync();
+			if (status === "granted") {
+				//Ouvrir l'appareil photo
+				const result = await ImagePicker.launchCameraAsync();
+
+				if (result.canceled === true) {
+					alert("Pas de photo sélectionnée");
+				} else {
+					setAvatar(result.assets[0].uri);
+				}
+			} else {
+				alert("Permission refusée");
+			}
+		}
+	};
 
 	const logOut = () => {
 		setInfo("", "Token", setUserToken);
@@ -49,20 +85,31 @@ const ProfileScreen = ({ userToken, setUserToken, setUserId, userId }) => {
 				username,
 				description,
 			};
-			updateProfile(
-				"/user/update",
-				"put",
-				userToken,
-				{ ...obj },
-				{ avatar },
-				setIsLoading
-			);
-			setIsUpdating(false);
+
+			if (avatar) {
+				const arr = avatar.split(".");
+
+				const formData = new FormData();
+				formData.append("photo", {
+					uri: avatar,
+					name: `my-pic.${arr[arr.length - 1]}`,
+					type: `image/${arr[arr.length - 1]}`,
+				});
+				updateProfile(
+					"/user/update",
+					"put",
+					userToken,
+					{ ...obj },
+					formData,
+					setIsLoading
+				);
+			}
 		} else {
 			setEmail(data.email);
 			setUsername(data.username);
 			setDescription(data.description);
 			setIsUpdating(true);
+			setAvatar(data.photo.url);
 		}
 	};
 
@@ -73,15 +120,18 @@ const ProfileScreen = ({ userToken, setUserToken, setUserId, userId }) => {
 			) : isUpdating ? (
 				<View>
 					<View>
-						{data.photo ? (
-							<Image />
+						{avatar ? (
+							<Image
+								source={{ uri: avatar }}
+								style={{ width: 100, height: 100 }}
+							/>
 						) : (
 							<FontAwesome6 name="house-chimney-user" size={24} color="grey" />
 						)}
-						<Pressable>
+						<Pressable onPress={() => permissionAndPicture("library")}>
 							<FontAwesome name="file-image-o" size={24} color="black" />
 						</Pressable>
-						<Pressable>
+						<Pressable onPress={() => permissionAndPicture("camera")}>
 							<Feather name="camera" size={24} color="black" />
 						</Pressable>
 					</View>
@@ -107,7 +157,10 @@ const ProfileScreen = ({ userToken, setUserToken, setUserId, userId }) => {
 			) : (
 				<View>
 					{data.photo ? (
-						<Image />
+						<Image
+							source={{ uri: data.photo.url }}
+							style={{ width: 100, height: 100 }}
+						/>
 					) : (
 						<FontAwesome6 name="house-chimney-user" size={24} color="grey" />
 					)}

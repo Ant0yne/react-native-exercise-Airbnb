@@ -90,6 +90,23 @@ const profile = async (url, method, userToken, setData, setIsLoading) => {
 	}
 };
 
+const updateAvatar = async (url, method, userToken, avatar, setIsLoading) => {
+	try {
+		const response = await axios({
+			url: api + url,
+			method: method,
+			data: avatar,
+			headers: {
+				authorization: `Bearer ${userToken}`,
+				"Content-Type": "multipart/form-data",
+			},
+		});
+	} catch (error) {
+		console.error(error.response.data.error);
+		setIsLoading(false);
+	}
+};
+
 const updateProfile = async (
 	url,
 	method,
@@ -116,23 +133,6 @@ const updateProfile = async (
 			setIsLoading
 		);
 		setIsLoading(false);
-	} catch (error) {
-		console.error(error.response.data.error);
-		setIsLoading(false);
-	}
-};
-
-const updateAvatar = async (url, method, userToken, avatar, setIsLoading) => {
-	try {
-		const response = await axios({
-			url: api + url,
-			method: method,
-			data: avatar,
-			headers: {
-				authorization: `Bearer ${userToken}`,
-			},
-		});
-		console.log("avatar", response.data);
 	} catch (error) {
 		console.error(error.response.data.error);
 		setIsLoading(false);
