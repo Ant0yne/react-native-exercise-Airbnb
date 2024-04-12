@@ -7,7 +7,7 @@ import SignLogInput from "../components/SignLogInput";
 
 // UTILS
 import { setInfo } from "../utils/user";
-import { profile } from "../utils/request";
+import { profile, updateProfile } from "../utils/request";
 
 const ProfileScreen = ({ userToken, setUserToken, setUserId, userId }) => {
 	const [data, setData] = useState();
@@ -18,12 +18,12 @@ const ProfileScreen = ({ userToken, setUserToken, setUserId, userId }) => {
 	const [email, setEmail] = useState("");
 	const [username, setUsername] = useState("");
 	const [description, setDescription] = useState("");
-	const [avatar, setAvatar] = useState();
+	const [avatar, setAvatar] = useState(null);
 
 	useEffect(() => {
 		const url = `/user/${userId}`;
 		profile(url, "get", userToken, setData, setIsLoading);
-	}, []);
+	}, [isUpdating]);
 
 	const logOut = () => {
 		setInfo("", "Token", setUserToken);
@@ -32,6 +32,20 @@ const ProfileScreen = ({ userToken, setUserToken, setUserId, userId }) => {
 
 	const updating = () => {
 		if (isUpdating) {
+			setIsLoading(true);
+			const obj = {
+				email,
+				username,
+				description,
+			};
+			updateProfile(
+				"/user/update",
+				"put",
+				userToken,
+				{ ...obj },
+				{ avatar },
+				setIsLoading
+			);
 			setIsUpdating(false);
 		} else {
 			setEmail(data.email);
@@ -41,12 +55,33 @@ const ProfileScreen = ({ userToken, setUserToken, setUserId, userId }) => {
 		}
 	};
 
+	const handleUpdate = () => {
+		const obj = {
+			email,
+			username,
+			description,
+		};
+		updateProfile(
+			"/user/update",
+			"put",
+			userToken,
+			{ ...obj },
+			null,
+			setIsLoading
+		);
+	};
+
 	return (
 		<>
 			{isLoading ? (
 				<ActivityIndicator size="large" color="#EB5961" />
 			) : isUpdating ? (
 				<View>
+					{data.photo ? (
+						<Image />
+					) : (
+						<FontAwesome6 name="house-chimney-user" size={24} color="grey" />
+					)}
 					<SignLogInput
 						placeholder={"email"}
 						value={email}

@@ -90,4 +90,54 @@ const profile = async (url, method, userToken, setData, setIsLoading) => {
 	}
 };
 
-export { signLog, offers, profile };
+const updateProfile = async (
+	url,
+	method,
+	userToken,
+	body,
+	avatar,
+	setIsLoading
+) => {
+	try {
+		const response = await axios({
+			url: api + url,
+			method: method,
+			data: body,
+			headers: {
+				authorization: `Bearer ${userToken}`,
+			},
+		});
+
+		updateAvatar(
+			"/user/upload_picture",
+			method,
+			userToken,
+			avatar,
+			setIsLoading
+		);
+		console.log("infos", response.data);
+		setIsLoading(false);
+	} catch (error) {
+		console.error(error.response.data.error);
+		setIsLoading(false);
+	}
+};
+
+const updateAvatar = async (url, method, userToken, avatar, setIsLoading) => {
+	try {
+		const response = await axios({
+			url: api + url,
+			method: method,
+			data: avatar,
+			headers: {
+				authorization: `Bearer ${userToken}`,
+			},
+		});
+		console.log("avatar", response.data);
+	} catch (error) {
+		console.error(error.response.data.error);
+		setIsLoading(false);
+	}
+};
+
+export { signLog, offers, profile, updateProfile };
