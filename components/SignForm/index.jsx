@@ -14,7 +14,7 @@ import nav from "../../utils/navigation";
 import StylesSignForm from "./signForm";
 const styles = StylesSignForm();
 
-const SignForm = ({ setUserToken }) => {
+const SignForm = ({ setUserToken, setUserId }) => {
 	// inputs value
 	const [email, setEmail] = useState("");
 	const [username, setUsername] = useState("");
@@ -49,7 +49,15 @@ const SignForm = ({ setUserToken }) => {
 		};
 		const url = "/user/sign_up";
 		// The request util
-		signLog(url, "post", { ...body }, setUserToken, setError, setIsLoading);
+		signLog(
+			url,
+			"post",
+			{ ...body },
+			setUserToken,
+			setUserId,
+			setError,
+			setIsLoading
+		);
 	};
 
 	return (

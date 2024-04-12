@@ -12,7 +12,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Offer from "../components/Offer";
 
 // UTILS
-import { setToken } from "../utils/user";
 import { offers } from "../utils/request";
 
 // STYLES
@@ -33,9 +32,6 @@ const HomeScreen = ({ setUserToken }) => {
 				<ActivityIndicator size="large" color="#EB5961" />
 			) : (
 				<SafeAreaView>
-					<Pressable onPress={() => setToken("", setUserToken)}>
-						<Text>Detroy token</Text>
-					</Pressable>
 					<FlatList
 						data={data}
 						keyExtractor={(item) => item._id}

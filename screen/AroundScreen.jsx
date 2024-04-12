@@ -33,10 +33,6 @@ const AroundScreen = ({ navigation }) => {
 			showsUserLocation>
 			{data.map((marker) => {
 				return (
-					// <Pressable
-					// 	key={marker._id}
-					// 	onPress={() => console.log("test")}
-					// 	style={{ backgroundColor: "red" }}>
 					<Marker
 						key={marker._id}
 						coordinate={{
@@ -47,7 +43,6 @@ const AroundScreen = ({ navigation }) => {
 						description={marker.description}
 						onCalloutPress={() => nav("Offer", navigation, { id: marker._id })}
 					/>
-					// </Pressable>
 				);
 			})}
 		</MapView>

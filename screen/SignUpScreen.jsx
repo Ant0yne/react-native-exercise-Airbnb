@@ -10,7 +10,7 @@ import SignForm from "../components/SignForm";
 import StylesGlobal from "../styles/global";
 const stylesGlo = StylesGlobal();
 
-const SignUpScreen = ({ setUserToken }) => {
+const SignUpScreen = ({ setUserToken, setUserId }) => {
 	// inputs value
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -21,7 +21,7 @@ const SignUpScreen = ({ setUserToken }) => {
 		<KeyboardAwareScrollView>
 			<SafeAreaView style={(stylesGlo.container, { alignItems: "center" })}>
 				<SignLogHeader />
-				<SignForm setUserToken={setUserToken} />
+				<SignForm setUserToken={setUserToken} setUserId={setUserId} />
 			</SafeAreaView>
 		</KeyboardAwareScrollView>
 	);

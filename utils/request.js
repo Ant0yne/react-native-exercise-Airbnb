@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // UTILS
-import { setToken } from "./user";
+import { setInfo } from "./user";
 import jsonify from "./jsonify";
 
 const api = "https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb";
@@ -19,6 +19,7 @@ const signLog = async (
 	method,
 	body,
 	setUserToken,
+	setUserId,
 	setError,
 	setIsLoading
 ) => {
@@ -33,7 +34,8 @@ const signLog = async (
 			data: body,
 		});
 
-		setToken(response.data.token, setUserToken);
+		setInfo(response.data.token, "Token", setUserToken);
+		setInfo(response.data.id, "Id", setUserId);
 
 		setIsLoading(false);
 	} catch (error) {
@@ -63,4 +65,29 @@ const offers = async (url, method, setData, setIsLoading) => {
 	}
 };
 
-export { signLog, offers };
+/**
+ *
+ * @param {String} url
+ * @param {String} method
+ * @param {String} userToken
+ * @param {Function} setData
+ * @param {Function} setIsLoading
+ */
+const profile = async (url, method, userToken, setData, setIsLoading) => {
+	try {
+		const response = await axios({
+			url: api + url,
+			method: method,
+			headers: {
+				authorization: `Bearer ${userToken}`,
+			},
+		});
+		setData(response.data);
+		setIsLoading(false);
+	} catch (error) {
+		console.error(error.response.data.error);
+		setIsLoading(false);
+	}
+};
+
+export { signLog, offers, profile };

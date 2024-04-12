@@ -15,7 +15,7 @@ import nav from "../../utils/navigation";
 import StylesLogForm from "./logForm";
 const styles = StylesLogForm();
 
-const LogForm = ({ setUserToken }) => {
+const LogForm = ({ setUserToken, setUserId }) => {
 	// inputs value
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -43,7 +43,15 @@ const LogForm = ({ setUserToken }) => {
 		};
 		const url = "/user/log_in";
 		// The request util
-		signLog(url, "post", { ...body }, setUserToken, setError, setIsLoading);
+		signLog(
+			url,
+			"post",
+			{ ...body },
+			setUserToken,
+			setUserId,
+			setError,
+			setIsLoading
+		);
 	};
 
 	return (

@@ -1,13 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const setToken = async (token, setUserToken) => {
-	if (token) {
-		await AsyncStorage.setItem("userToken", token);
+const setInfo = async (info, name, setUserInfo) => {
+	if (info) {
+		await AsyncStorage.setItem(`user${name}`, info);
 	} else {
-		await AsyncStorage.removeItem("userToken");
+		await AsyncStorage.removeItem(`user${name}`);
 	}
 
-	setUserToken(token);
+	setUserInfo(info);
 };
 
-export { setToken };
+export { setInfo };

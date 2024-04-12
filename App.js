@@ -11,6 +11,7 @@ import SignUpScreen from "./screen/SignUpScreen";
 import HomeScreen from "./screen/HomeScreen";
 import OfferScreen from "./screen/OfferScreen";
 import AroundScreen from "./screen/AroundScreen";
+import ProfileScreen from "./screen/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -18,15 +19,17 @@ const Stack = createNativeStackNavigator();
 export default function App() {
 	const [isLoading, setIsLoading] = useState(true);
 	const [userToken, setUserToken] = useState("");
+	const [userId, setUserId] = useState("");
 
 	useEffect(() => {
 		/**
 		 * Get the user token from local storage
 		 */
 		const getToken = async () => {
-			const userToken = await AsyncStorage.getItem("userToken");
-
-			setUserToken(userToken);
+			const token = await AsyncStorage.getItem("userToken");
+			const id = await AsyncStorage.getItem("userId");
+			setUserToken(token);
+			setUserId(id);
 			setIsLoading(false);
 		};
 
@@ -41,10 +44,22 @@ export default function App() {
 				{!userToken ? (
 					<>
 						<Stack.Screen name="LogIn" options={{ headerShown: false }}>
-							{() => <LogInScreen setUserToken={setUserToken} />}
+							{(props) => (
+								<LogInScreen
+									{...props}
+									setUserToken={setUserToken}
+									setUserId={setUserId}
+								/>
+							)}
 						</Stack.Screen>
 						<Stack.Screen name="SignUp" options={{ headerShown: false }}>
-							{() => <SignUpScreen setUserToken={setUserToken} />}
+							{(props) => (
+								<SignUpScreen
+									{...props}
+									setUserToken={setUserToken}
+									setUserId={setUserId}
+								/>
+							)}
 						</Stack.Screen>
 					</>
 				) : (
@@ -56,12 +71,8 @@ export default function App() {
 									options={{ title: "Home", headerShown: false }}>
 									{() => (
 										<Stack.Navigator>
-											<Stack.Screen name="Home">
-												{() => <HomeScreen setUserToken={setUserToken} />}
-											</Stack.Screen>
-											<Stack.Screen name="Offer">
-												{(props) => <OfferScreen {...props} />}
-											</Stack.Screen>
+											<Stack.Screen name="Home" component={HomeScreen} />
+											<Stack.Screen name="Offer" component={OfferScreen} />
 										</Stack.Navigator>
 									)}
 								</Tab.Screen>
@@ -73,6 +84,21 @@ export default function App() {
 											<Stack.Screen name="Around" component={AroundScreen} />
 											<Stack.Screen name="Offer" component={OfferScreen} />
 										</Stack.Navigator>
+									)}
+								</Tab.Screen>
+								<Tab.Screen
+									name="TabProfile"
+									options={{
+										title: "My Profile",
+									}}>
+									{(props) => (
+										<ProfileScreen
+											{...props}
+											userToken={userToken}
+											setUserToken={setUserToken}
+											userId={userId}
+											setUserId={setUserId}
+										/>
 									)}
 								</Tab.Screen>
 							</Tab.Navigator>

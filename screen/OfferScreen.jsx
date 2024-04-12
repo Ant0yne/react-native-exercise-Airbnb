@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Text, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 
 // COMPONENTS
 import Offer from "../components/Offer";
@@ -27,6 +28,22 @@ const OfferScreen = ({ route }) => {
 			) : (
 				<SafeAreaView style={stylesGlo.container}>
 					<Offer offer={data} />
+					<MapView
+						provider={PROVIDER_GOOGLE}
+						initialRegion={{
+							latitude: data.location[1],
+							longitude: data.location[0],
+							latitudeDelta: 0.05,
+							longitudeDelta: 0.05,
+						}}
+						style={{ width: "100%", height: 250 }}>
+						<Marker
+							coordinate={{
+								longitude: data.location[0],
+								latitude: data.location[1],
+							}}
+						/>
+					</MapView>
 				</SafeAreaView>
 			)}
 		</>
