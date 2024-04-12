@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Text, View, Pressable, ActivityIndicator, Image } from "react-native";
-import { FontAwesome6 } from "@expo/vector-icons";
+import { useIsFocused } from "@react-navigation/native";
+import { FontAwesome6, FontAwesome, Feather } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 
 // COMPONENTS
 import SignLogInput from "../components/SignLogInput";
@@ -20,10 +22,19 @@ const ProfileScreen = ({ userToken, setUserToken, setUserId, userId }) => {
 	const [description, setDescription] = useState("");
 	const [avatar, setAvatar] = useState(null);
 
+	const focus = useIsFocused();
+
+	// Fetch user's profile data everytime there is an update
 	useEffect(() => {
 		const url = `/user/${userId}`;
 		profile(url, "get", userToken, setData, setIsLoading);
 	}, [isUpdating]);
+
+	useEffect(() => {
+		if (!focus) {
+			setIsUpdating(false);
+		}
+	}, [focus]);
 
 	const logOut = () => {
 		setInfo("", "Token", setUserToken);
@@ -55,33 +66,25 @@ const ProfileScreen = ({ userToken, setUserToken, setUserId, userId }) => {
 		}
 	};
 
-	const handleUpdate = () => {
-		const obj = {
-			email,
-			username,
-			description,
-		};
-		updateProfile(
-			"/user/update",
-			"put",
-			userToken,
-			{ ...obj },
-			null,
-			setIsLoading
-		);
-	};
-
 	return (
 		<>
 			{isLoading ? (
 				<ActivityIndicator size="large" color="#EB5961" />
 			) : isUpdating ? (
 				<View>
-					{data.photo ? (
-						<Image />
-					) : (
-						<FontAwesome6 name="house-chimney-user" size={24} color="grey" />
-					)}
+					<View>
+						{data.photo ? (
+							<Image />
+						) : (
+							<FontAwesome6 name="house-chimney-user" size={24} color="grey" />
+						)}
+						<Pressable>
+							<FontAwesome name="file-image-o" size={24} color="black" />
+						</Pressable>
+						<Pressable>
+							<Feather name="camera" size={24} color="black" />
+						</Pressable>
+					</View>
 					<SignLogInput
 						placeholder={"email"}
 						value={email}

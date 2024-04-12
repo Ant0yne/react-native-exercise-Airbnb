@@ -115,7 +115,6 @@ const updateProfile = async (
 			avatar,
 			setIsLoading
 		);
-		console.log("infos", response.data);
 		setIsLoading(false);
 	} catch (error) {
 		console.error(error.response.data.error);
