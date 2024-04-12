@@ -54,7 +54,6 @@ const offers = async (url, method, setData, setIsLoading) => {
 			url: api + url,
 			method: method,
 		});
-
 		setData(response.data);
 		setIsLoading(false);
 	} catch (error) {

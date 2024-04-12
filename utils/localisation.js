@@ -1,6 +1,7 @@
 import * as Location from "expo-location";
+import { offers } from "./request";
 
-const loc = async (setCoords, setDeny, setIsLoading) => {
+const loc = async (setCoords, setDeny, setData, setIsLoading) => {
 	let { status } = await Location.requestForegroundPermissionsAsync();
 
 	if (status === "granted") {
@@ -11,11 +12,12 @@ const loc = async (setCoords, setDeny, setIsLoading) => {
 			longitude: location.coords.longitude,
 		};
 		setCoords(obj);
+		const url = `/rooms/around?latitude=${obj.latitude}&longitude=${obj.longitude}`;
+		console.log(url);
+		offers(url, "get", setData, setIsLoading);
 	} else {
 		setDeny(true);
 	}
-
-	setIsLoading(false);
 };
 
 export default loc;

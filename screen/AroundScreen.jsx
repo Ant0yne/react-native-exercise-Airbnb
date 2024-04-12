@@ -9,9 +9,10 @@ const AroundScreen = () => {
 	const [deny, setDeny] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 	const [coords, setCoords] = useState();
+	const [data, setData] = useState();
 
 	useEffect(() => {
-		loc(setCoords, setDeny, setIsLoading);
+		loc(setCoords, setDeny, setData, setIsLoading);
 	}, []);
 
 	return isLoading ? (
